@@ -29,6 +29,26 @@ function dibujarTeclado(evento)
 {
   var colorcito = "blue";
   var movimiento = 5;
+  switch(evento.keyCode)
+  {
+    case teclas.UP:
+      dibujarLinea(colorcito,x,y,x, y-movimiento,papel);
+      y = y-movimiento;
+    break
+    case teclas.DOWN:
+      dibujarLinea(colorcito,x,y,x, y+movimiento,papel);
+      y = y+movimiento;
+    break
+    case teclas.LEFT:
+      dibujarLinea(colorcito,x,y,x-movimiento,y,papel);
+      x = x-movimiento;
+    break
+    case teclas.RIGHT:
+      dibujarLinea(colorcito,x,y,x+movimiento,y,papel);
+      x = x+movimiento;
+    break
+  }
+  /*
   if (evento.keyCode == teclas.UP)
   {
     dibujarLinea(colorcito,x,y,x, y-movimiento,papel);
@@ -49,4 +69,5 @@ function dibujarTeclado(evento)
     dibujarLinea(colorcito,x,y,x+movimiento,y,papel);
     x = x+movimiento;
   }
+  */
 }
