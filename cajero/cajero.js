@@ -4,29 +4,57 @@ class billete
   {
     this.valor=v;
     this.cantidad=c;
+    this.imagen = new Image();
+    this.imagen.src = imagenes[this.valor];
   }
 }
 
+var imagenes = [];
+imagenes["10"] = "billete10.png";
+imagenes["20"] = "billete20.png";
+imagenes["50"] = "billete50.png";
+
+var caja = [];
+caja.push( new billete(10, 15) );
+caja.push( new billete(20, 15) );
+caja.push( new billete(50, 10) );
+
+var entregado = [];
+
+var dinero;
+var div = 0;
+var papeles = 0;
+var resultado = document.getElementById("resultado");
+var b = document.getElementById('Retirar');
+b.addEventListener("click",EntregarDinero);
+
+var cantidad = document.getElementById("cantidad");
+//cantidad.addEventListener("click", existencia);
+
 function EntregarDinero()
 {
+  resultado.innerHTML = "";
   var t = document.getElementById("dinero");
   dinero = parseInt(t.value);
-  for(var bi of caja)
+
+  for(var b of caja)
   {
     if(dinero > 0)
     {
-      div = Math.floor(dinero / bi.valor);
+      div = Math.floor(dinero / b.valor);
 
-      if(div > bi.cantidad)
+      if(div > b.cantidad)
       {
-        papeles = bi.cantidad;
+        papeles = b.cantidad;
       }
       else
       {
         papeles = div;
       }
-      entregado.push(new billete(bi.valor, papeles));
-      dinero = dinero - (bi.valor * papeles);
+      entregado.push(new billete(b.valor, papeles));
+      dinero = dinero - (b.valor * papeles);
+
+      b.cantidad -= papeles;
 
     }
   }
@@ -36,26 +64,28 @@ function EntregarDinero()
       }
       else
       {
+        resultado.innerHTML += "<p>Retiraste:<br /></p>";
+
         for(var e of entregado)
         {
           if(e.cantidad > 0)
           {
-             resultado.innerHTML += e.cantidad + " billetes de $" + e.valor + "<br />";
+            for(var bi = 1; bi <= e.cantidad ;bi++)
+            {
+              resultado.innerHTML += "<img src=" + e.imagen.src + " />" + "<br /><hr />";
+            }
           }
         }
       }
 }
 
-var caja = [];
-var entregado = [];
-caja.push(new billete(50,3));
-caja.push(new billete(20,2));
-caja.push(new billete(10,2));
+function existencia()
+{
+  var total = 0;
 
-
-var dinero;
-var div = 0;
-var papeles = 0;
-var resultado = document.getElementById("resultado");
-var b = document.getElementById('Retirar');
-b.addEventListener("click",EntregarDinero);
+  for(var bi of caja)
+  {
+    total += bi.valor * bi.cantidad;
+  }
+  alert("La cantidad actual de dinero es de " + total + "$COP");
+}
